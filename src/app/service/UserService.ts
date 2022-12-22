@@ -13,13 +13,17 @@ export const UserService: IUserServiceClass = class UserService
   }
 
   async create(fingerprint: string) {
-    const user = await this.#userRepository.create(sha512(FINGERPRINT_SALT, fingerprint))
+    const user = await this.#userRepository.create(
+      sha512(FINGERPRINT_SALT, fingerprint)
+    )
 
     return user
   }
 
   async getUser(fingerprint: string) {
-    const user = await this.#userRepository.findByFingerprint(sha512(FINGERPRINT_SALT, fingerprint))
+    const user = await this.#userRepository.findByFingerprint(
+      sha512(FINGERPRINT_SALT, fingerprint)
+    )
 
     return user
   }
