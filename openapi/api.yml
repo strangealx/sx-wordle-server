@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: sx-wordle
+  description: Simple wordle like game
+  version: 1.0.0
+servers:
+  - url: http://localhost:80
+tags:
+  - name: wordle
+paths:
+  /game:
+    post:
+      summary: Create new game instance
+      operationId: createNewGame
+      tags:
+        - wordle
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+  /game/{id}:
+    get:
+      tags:
+        - wordle
+      summary: Find game by id
+      operationId: getGameById
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '400':
+          description: Invalid Id supplied
+        '403':
+          description: Forbidden
+  /game/{id}/guess:
+    post:
+      tags:
+        - wordle
+      summary: Add new guess
+      operationId: makeGuess
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Guess'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '400':
+          description: Invalid Id supplied
+        '403':
+          description: Forbidden
+components:
+  schemas:
+    Id:
+      type: integer
+    Game:
+      type: object
+      required: [id, hash, isCompleted, guess]
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        hash:
+          type: string
+          description: sha-512 hash of the word
+          example: ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff
+        secret:
+          type: string
+          example: 'ee3c10ae'
+          description: salt used for hash, presented when complete is "true"
+        isCompleted:
+          type: boolean
+        guess:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuessResponse'
+        status:
+          type: string
+          enum: [SUCCESS, FAIL, IN_PROGRESS]
+          description: presented when complete is "true"
+        word:
+          type: string
+          description: the word, presented when complete is "true"
+          minLength: 5
+          maxLength: 5
+    Guess:
+      type: object
+      required:
+        - guess
+      properties:
+        guess:
+          type: string
+          example: 'MAGIC'
+          minLength: 5
+          maxLength: 5
+    GuessResponse:
+      type: object
+      required:
+        - id
+        - result
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Character'
+    Character:
+      type: object
+      required:
+        - character
+        - position
+        - exists
+      properties:
+        character:
+          type: string
+          maxLength: 1
+          minLength: 1
+          example: 'a'
+        position:
+          type: boolean
+        exists:
+          type: boolean
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer

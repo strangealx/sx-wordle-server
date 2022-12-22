@@ -1,0 +1,5 @@
+export * from './BookRepository'
+export * from './GameRepository'
+export * from './GuessRepository'
+export * from './LanguageRepository'
+export * from './UserRepository'
