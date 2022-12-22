@@ -1,10 +1,7 @@
 import { Middleware } from '@koa/router'
 import * as Joi from 'joi'
 
-type TCreateValidator = (schema: {
-  params?: Joi.Schema
-  body?: Joi.Schema
-}) => Middleware
+type TCreateValidator = (schema: { params?: Joi.Schema; body?: Joi.Schema }) => Middleware
 
 export const createValidator: TCreateValidator =
   ({ params: paramsSchema, body: bodySchema }) =>

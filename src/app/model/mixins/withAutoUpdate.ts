@@ -1,9 +1,7 @@
 import { Model, ModelOptions, Pojo, QueryContext } from 'objection'
 import { Mixin, MixinConstructor } from '../../type'
 
-export const withAutoUpdate = <T extends MixinConstructor<Model>>(
-  ModelClass: T
-) =>
+export const withAutoUpdate = <T extends MixinConstructor<Model>>(ModelClass: T) =>
   class WithAutoUpdate extends ModelClass {
     createdAt!: Date
     updatedAt!: Date

@@ -12,10 +12,7 @@ import { Mixin, MixinConstructor } from '../../type'
 export const withSoftDelete = <T extends MixinConstructor<Model>>(Base: T) => {
   // TODO: this QueryBuilder should exend Model.QueryBuilder.
   // But there are some ts problems, I can't figure out right now
-  class SoftDeleteQueryBuilder<
-    M extends WithSoftDelete,
-    R = M[]
-  > extends QueryBuilder<M, R> {
+  class SoftDeleteQueryBuilder<M extends WithSoftDelete, R = M[]> extends QueryBuilder<M, R> {
     ArrayQueryBuilderType!: SoftDeleteQueryBuilder<M, M[]>
     SingleQueryBuilderType!: SoftDeleteQueryBuilder<M, M>
     NumberQueryBuilderType!: SoftDeleteQueryBuilder<M, number>

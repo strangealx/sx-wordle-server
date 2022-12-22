@@ -1,18 +1,9 @@
 import { PartialModelGraph, Transaction } from 'objection'
 import { Game } from '../model'
-import {
-  IGameRepository,
-  TCreateGame,
-  EGameStatus,
-  TUserModel,
-  TLanguageModel
-} from '../type'
+import { IGameRepository, TCreateGame, EGameStatus, TUserModel, TLanguageModel } from '../type'
 import { BaseRepository } from './BaseRepository'
 
-export class GameRepository
-  extends BaseRepository<Game>
-  implements IGameRepository
-{
+export class GameRepository extends BaseRepository<Game> implements IGameRepository {
   constructor() {
     super(Game)
   }
@@ -31,16 +22,10 @@ export class GameRepository
   }
 
   async findById(gameId: number) {
-    return this.Model.query()
-      .whereNotDeleted()
-      .withGraphFetched('guess')
-      .findById(gameId)
+    return this.Model.query().whereNotDeleted().withGraphFetched('guess').findById(gameId)
   }
 
-  async findLastUnfinishedGameByUser(
-    user: TUserModel,
-    language: TLanguageModel
-  ) {
+  async findLastUnfinishedGameByUser(user: TUserModel, language: TLanguageModel) {
     return user
       .$relatedQuery<Game>('game')
       .whereNotDeleted()
@@ -50,9 +35,7 @@ export class GameRepository
   }
 
   async createGuess(game: Game, guess: string, trx?: Transaction) {
-    const nextGuess = await game
-      .$relatedQuery('guess', trx)
-      .insertAndFetch({ guess })
+    const nextGuess = await game.$relatedQuery('guess', trx).insertAndFetch({ guess })
     game.guess.push(nextGuess)
 
     return game

@@ -1,9 +1,7 @@
 import { Middleware } from '@koa/router'
 import { IUserService, TApiGameParams, TState } from '../../type'
 
-type TAccessControl = (service: {
-  userService: IUserService
-}) => Middleware<TState>
+type TAccessControl = (service: { userService: IUserService }) => Middleware<TState>
 
 export const accessControl: TAccessControl =
   ({ userService }) =>

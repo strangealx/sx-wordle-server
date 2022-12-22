@@ -2,10 +2,7 @@ import { Language } from '../model'
 import { ILanguageRepository } from '../type'
 import { BaseRepository } from './BaseRepository'
 
-export class LanguageRepository
-  extends BaseRepository<Language>
-  implements ILanguageRepository
-{
+export class LanguageRepository extends BaseRepository<Language> implements ILanguageRepository {
   constructor() {
     super(Language)
   }

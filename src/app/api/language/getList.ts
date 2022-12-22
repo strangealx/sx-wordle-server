@@ -1,9 +1,7 @@
 import { Context } from 'koa'
 import { ILanguageService } from '../../type'
 
-type TGetList = (service: {
-  languageService: ILanguageService
-}) => (ctx: Context) => void
+type TGetList = (service: { languageService: ILanguageService }) => (ctx: Context) => void
 
 export const getList: TGetList =
   ({ languageService }) =>

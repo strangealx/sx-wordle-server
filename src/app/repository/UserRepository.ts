@@ -3,10 +3,7 @@ import { User } from '../model'
 import { IUserRepository, TModelId } from '../type'
 import { BaseRepository } from './BaseRepository'
 
-export class UserRepository
-  extends BaseRepository<User>
-  implements IUserRepository
-{
+export class UserRepository extends BaseRepository<User> implements IUserRepository {
   constructor() {
     super(User)
   }

@@ -1,9 +1,7 @@
 import { Context } from 'koa'
 import { IGameService } from '../../type'
 
-type TGetGame = (service: {
-  gameService: IGameService
-}) => (ctx: Context) => void
+type TGetGame = (service: { gameService: IGameService }) => (ctx: Context) => void
 
 export const getGame: TGetGame =
   ({ gameService }) =>

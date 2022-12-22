@@ -16,9 +16,6 @@ export interface IGameService {
 }
 
 export interface IGameServiceClass {
-  new (
-    gameRepository: IGameRepository,
-    bookRepository: IBookRepository
-  ): IGameService
+  new (gameRepository: IGameRepository, bookRepository: IBookRepository): IGameService
   toDTO(game: TGameModel): TApiGame
 }

@@ -4,10 +4,7 @@ import { getRandomInt } from './getRandomInt'
 
 type TGetSalt = (saltLength: number, entropy?: number) => string
 
-export const getSalt: TGetSalt = (
-  saltLength,
-  entropy = RANDOM_SALT_HEX_LENGTH
-) => {
+export const getSalt: TGetSalt = (saltLength, entropy = RANDOM_SALT_HEX_LENGTH) => {
   if (entropy < saltLength) {
     throw new Error('Entropy length must be greater then salt')
   }

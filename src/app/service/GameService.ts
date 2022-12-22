@@ -12,23 +12,17 @@ import {
 } from '../type'
 import { getSalt, sha512 } from '../utils'
 
-export const GameService: IGameServiceClass = class GameService
-  implements IGameService
-{
+export const GameService: IGameServiceClass = class GameService implements IGameService {
   #gameRepository: IGameRepository
   #bookRepository: IBookRepository
 
-  constructor(
-    gameRepository: IGameRepository,
-    bookRepository: IBookRepository
-  ) {
+  constructor(gameRepository: IGameRepository, bookRepository: IBookRepository) {
     this.#gameRepository = gameRepository
     this.#bookRepository = bookRepository
   }
 
   static toDTO(game: TGameModel) {
-    const { word, salt, result, languageId, guess, user, ...rest } =
-      game.toJSON()
+    const { word, salt, result, languageId, guess, user, ...rest } = game.toJSON()
     const isCompleted = result !== EGameStatus.IN_PROGRESS
 
     return {
@@ -84,10 +78,7 @@ export const GameService: IGameServiceClass = class GameService
     }
 
     const salt = getSalt(SALT_LENGTH)
-    const game = await this.#gameRepository.create(
-      { word, salt, languageId: language.id },
-      user
-    )
+    const game = await this.#gameRepository.create({ word, salt, languageId: language.id }, user)
 
     return game
   }
@@ -105,21 +96,14 @@ export const GameService: IGameServiceClass = class GameService
       throw new Error(`No game found with id: ${gameId}`)
     }
 
-    if (
-      game.guess.length >= MAX_ROUNDS ||
-      game.result !== EGameStatus.IN_PROGRESS
-    ) {
+    if (game.guess.length >= MAX_ROUNDS || game.result !== EGameStatus.IN_PROGRESS) {
       throw new Error(`Game is already complete: ${gameId}`)
     }
 
     const trx = await this.#gameRepository.startTransaction()
 
     try {
-      const updatedGame = await this.#gameRepository.createGuess(
-        game,
-        guess,
-        trx
-      )
+      const updatedGame = await this.#gameRepository.createGuess(game, guess, trx)
       const { word, guess: guessList } = updatedGame
       const { guess: lastGuess } = guessList[guessList.length - 1]
       const isSuccess = word === lastGuess

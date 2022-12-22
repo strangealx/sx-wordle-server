@@ -23,10 +23,6 @@ export interface IGameRepository extends IRepository<Game> {
     language: TLanguageModel
   ): Promise<Game | undefined>
   createGuess(game: Game, guess: string, trx?: Transaction): Promise<Game>
-  completeGame(
-    game: Game,
-    result: EGameStatus,
-    trx?: Transaction
-  ): Promise<Game>
+  completeGame(game: Game, result: EGameStatus, trx?: Transaction): Promise<Game>
   touch(game: Game, trx?: Transaction): Promise<Game>
 }
