@@ -7,3 +7,4 @@
 - add human readable errors
 - add tests
 - add locales, translations
+- add logger
