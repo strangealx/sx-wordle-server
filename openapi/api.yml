@@ -14,6 +14,9 @@ paths:
       operationId: createNewGame
       tags:
         - wordle
+      parameters:
+        - $ref: '#/components/parameters/Fingerprint'
+        - $ref: '#/components/parameters/Language'
       responses:
         '200':
           description: Successful operation
@@ -29,6 +32,8 @@ paths:
       operationId: getGameById
       parameters:
         - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Fingerprint'
+        - $ref: '#/components/parameters/Language'
       responses:
         '200':
           description: successful operation
@@ -48,6 +53,8 @@ paths:
       operationId: makeGuess
       parameters:
         - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Fingerprint'
+        - $ref: '#/components/parameters/Language'
       requestBody:
         content:
           application/json:
@@ -64,6 +71,32 @@ paths:
           description: Invalid Id supplied
         '403':
           description: Forbidden
+  /language/list:
+    get:
+      tags:
+        - wordle
+      summary: Get available languages
+      operationId: getLanguageList
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LanguageList'
+  /settings:
+    get:
+      tags:
+        - wordle
+      summary: Get game settings
+      operationId: getSettings
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
 components:
   schemas:
     Id:
@@ -135,6 +168,38 @@ components:
           type: boolean
         exists:
           type: boolean
+    LanguageCode:
+      type: string
+      maxLength: 2
+      minLength: 2
+      example: 'en'
+    Language:
+      type: object
+      required:
+        - id
+        - code
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        code:
+          $ref: '#/components/schemas/LanguageCode'
+    LanguageList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Language'
+    Settings:
+      type: object
+      required:
+        - wordLength
+        - maxRounds
+        - defaultLanguage
+      properties:
+        wordLength:
+          type: integer
+        maxRounds:
+          type: integer
+        defaultLAnguage:
+          $ref: '#/components/schemas/LanguageCode'
   parameters:
     Id:
       name: id
@@ -142,3 +207,17 @@ components:
       required: true
       schema:
         type: integer
+    Fingerprint:
+      name: X-Fingerprint
+      in: header
+      required: true
+      schema:
+        type: string
+        maxLength: 20
+        minLength: 20
+        example: fingerprint--example
+    Language:
+      name: Accept-Language
+      in: header
+      schema:
+        $ref: '#/components/schemas/LanguageCode'

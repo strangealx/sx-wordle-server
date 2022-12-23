@@ -11,6 +11,6 @@ const router = new Router({
 const languageService = new LanguageService(new LanguageRepository())
 
 // Routes
-router.post('/list', getList({ languageService }))
+router.get('/list', getList({ languageService }))
 
 export { router }

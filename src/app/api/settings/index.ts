@@ -6,7 +6,7 @@ const router = new Router({
 })
 
 // Routes
-router.post('/', async (ctx) => {
+router.get('/', async (ctx) => {
   ctx.body = {
     wordLength: WORD_LENGTH,
     maxRounds: MAX_ROUNDS,
