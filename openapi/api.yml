@@ -198,7 +198,7 @@ components:
           type: integer
         maxRounds:
           type: integer
-        defaultLAnguage:
+        defaultLanguage:
           $ref: '#/components/schemas/LanguageCode'
   parameters:
     Id:
